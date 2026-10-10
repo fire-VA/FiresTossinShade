@@ -1,0 +1,10 @@
+{
+    "name":  "FiresTossinShade",
+    "version_number":  "0.3.161",
+    "website_url":  "https://github.com/fire-VA/FiresTossinShade",
+    "description":  "The Fires mod family\u0027s own shaders: building pieces, characters, terrain, water, clouds, fog, aurora and glass.",
+    "dependencies":  [
+                         "denikson-BepInExPack_Valheim-5.4.2350",
+                         "VerdantsAscent-FiresUnifiedCore-0.2.387"
+                     ]
+}

@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8CC85AFA-A949-434B-858F-CE65BB7F7A6C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FiresTossinShade</RootNamespace>
+    <AssemblyName>FiresTossinShade</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
+    <FileAlignment>512</FileAlignment>
+    <CodePage>65001</CodePage>
+    <Deterministic>true</Deterministic>
+    <PathMap>$(MSBuildProjectDirectory)=/_/</PathMap>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <Choose>
+    <When Condition="($(OS) == 'Unix' OR $(OS) == 'OSX') AND $(GamePath) == ''">
+      <PropertyGroup>
+        <GamePath Condition="!Exists('$(GamePath)')">$(HOME)/.steam/steam/steamapps/common/Valheim</GamePath>
+        <GamePath Condition="!Exists('$(GamePath)')">$(HOME)/Library/Application Support/Steam/steamapps/common/Valheim/Contents/MacOS</GamePath>
+      </PropertyGroup>
+    </When>
+    <When Condition="($(OS) == 'Windows_NT') AND $(GamePath) == ''">
+      <PropertyGroup>
+        <GamePath Condition="!Exists('$(GamePath)')">$([MSBuild]::GetRegistryValueFromView('HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 892970', 'InstallLocation', null, RegistryView.Registry64, RegistryView.Registry32))</GamePath>
+        <_SteamLibraryPath>$([MSBuild]::GetRegistryValueFromView('HKEY_CURRENT_USER\SOFTWARE\Valve\Steam', 'SteamPath', null, RegistryView.Registry32))</_SteamLibraryPath>
+        <GamePath Condition="!Exists('$(GamePath)') AND '$(_SteamLibraryPath)' != ''">$(_SteamLibraryPath)\steamapps\common\Valheim</GamePath>
+        <GamePath Condition="!Exists('$(GamePath)')">C:\Program Files\Steam\steamapps\common\Valheim</GamePath>
+        <GamePath Condition="!Exists('$(GamePath)')">C:\Program Files (x86)\Steam\steamapps\common\Valheim</GamePath>
+      </PropertyGroup>
+    </When>
+  </Choose>
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim dedicated server\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="assembly_guiutils">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\publicized_assemblies\assembly_guiutils_publicized.dll</HintPath>
+    </Reference>
+    <Reference Include="assembly_utils">
+      <HintPath>$(GamePath)\valheim_Data\Managed\assembly_utils.dll</HintPath>
+      <Private>False</Private>
+      </Reference>
+    <Reference Include="assembly_valheim">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\publicized_assemblies\assembly_valheim_publicized.dll</HintPath>
+    </Reference>
+    <Reference Include="FiresUnifiedCore">
+      <HintPath>..\..\FiresUnifiedCore\FiresUnifiedCore\bin\Release\FiresUnifiedCore.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\customspawnsmod\lib\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="gui_framework">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\gui_framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Splatform, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\Splatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AnimationModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AssetBundleModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\publicized_assemblies\UnityEngine.AssetBundleModule_publicized.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine.ClothModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim\valheim_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FiresAdminTerrain.cs" />
+    <Compile Include="Managers\ConfigManager.cs" />
+    <Compile Include="Modules\Async\AsyncShutdownManager.cs" />
+    <Compile Include="Modules\Async\BackgroundWorker.cs" />
+    <Compile Include="Modules\Async\FrameBudgetScheduler.cs" />
+    <Compile Include="Modules\Async\MainThreadDispatcher.cs" />
+    <Compile Include="Modules\Async\ManifestDiffSync.cs" />
+    <Compile Include="Modules\Async\SafeRoutedRpc.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresAuroraDriver.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresSkyboxDriver.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresSunHaze.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresUnderwaterEnv.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\SubmersionState.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresAuroraLight.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresAuroraShaftsPass.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresSkyboxAuroraDriver.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresWaterExtendedRing.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresClipmapOcean.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresWaterZoneTiles.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\ZoneContentSuppressor.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresWaterShaderLoader.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresLavaShaderLoader.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresHeightmapShaderLoader.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresLitParticlesShaderLoader.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\ShaderNames.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPieceShaderLoader.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPlayerShaderLoader.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresElfEars.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresHairBeardScale.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPlayerModel.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresHairPhysics.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPlayerCustomization.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\OceanZoneRingExtender.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\UnderwaterFogDriver.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\WaterMaterialManager.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\WaterMeshShoreBake.cs" />
+    <Compile Include="Modules\CustomWater\Tools\SkyDebugCommands.cs" />
+    <Compile Include="Modules\CustomWater\Tools\SkyDumpCommand.cs" />
+    <Compile Include="Modules\CustomWater\Tools\FiresSkyDiagCommand.cs" />
+    <Compile Include="Modules\CustomWater\Tools\FiresPresetCommand.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresWaterFlatWorldPlane.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresVanillaSkyTuner.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPlanetDriver.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPlanetMap.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresWaterFoamGlobals.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresWaterTuning.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresCausticsPass.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresGlassProjector.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresMeniscusPass.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresShipWaterMaskFit.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresPlanarReflection.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresGlassWindow.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresGlassPiece.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresVolumetricFogPass.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresShoreField.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresFogEnvReactive.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresLightningBlend.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresFogControl.cs" />
+    <Compile Include="Modules\CustomWater\Rendering\FiresUnderwaterBubbles.cs" />
+    <Compile Include="Modules\Utilities\NetworkObjectHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\FiresLogger.cs" />
+    <Compile Include="Utilities\FiresTossinShadeBanner.cs" />
+    <Compile Include="Utilities\FtsHelpContent.cs" />
+  </ItemGroup>
+  <!--
+    Source-link block — shared utility files that live in sibling Fires-* mods.
+    Uses <Link> to expose them inside this project's tree without copying files.
+    Pattern documented in reference_source_link_pattern.md (first applied to
+    PlayerSpawnGate 2026-05-20). FAP holds the newer/better implementations.
+
+    To re-enable after FAP is on disk at the expected sibling path, uncomment.
+    Currently commented out so the initial standalone build passes without
+    pulling in FAP's transitive dependencies (VerdantsAscent.Managers types
+    that FAP's clutter touches don't all exist here yet). Will be wired up
+    in the clutter-replacement phase.
+
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\ShaderReplacement.cs">
+      <Link>SourceLinked\FAP\ShaderReplacement.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\MaterialSwapper.cs">
+      <Link>SourceLinked\FAP\MaterialSwapper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\VAClutterRegistry.cs">
+      <Link>SourceLinked\FAP\VAClutterRegistry.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\VAClutterStandinFactory.cs">
+      <Link>SourceLinked\FAP\VAClutterStandinFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\VAClutterPaintTool.cs">
+      <Link>SourceLinked\FAP\VAClutterPaintTool.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\VAClutterClearTool.cs">
+      <Link>SourceLinked\FAP\VAClutterClearTool.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\VAClutterBrushIndicator.cs">
+      <Link>SourceLinked\FAP\VAClutterBrushIndicator.cs</Link>
+    </Compile>
+    <Compile Include="..\..\FiresAdminPrefabs\FiresAdminPrefabs\Utilities\VAClutterShaderRepair.cs">
+      <Link>SourceLinked\FAP\VAClutterShaderRepair.cs</Link>
+    </Compile>
+  -->
+  <ItemGroup>
+    <!-- FiresTossinShade shader bundle — built in Fires2026Project via the menu
+         "Valheim/Build AssetBundles". The bundle output appears at
+           Fires2026Project/Assets/AssetBundles/tossinshade
+         Copy that file (no extension) into this directory. The Condition
+         keeps the build green when the bundle hasn't been built yet — when
+         the file is missing the entry just isn't applied and the loader
+         logs a clear warning at runtime instead. -->
+    <None Include="packages.config" />
+    <None Include="Docs\TERRAIN_WATER_PERSISTENCE_BUGFIX_TRACKER.md" />
+    <EmbeddedResource Include="tossinshade" Condition="Exists('$(MSBuildProjectDirectory)\tossinshade')" />
+    <!-- Player model overrides REMOVED FOR NOW (prototype didn't pan out). The firesplayermodels bundle is no longer
+         embedded/shipped. Re-add this line (plus the 10e configs + wiring) to ship player models again. -->
+    <!-- <EmbeddedResource Include="firesplayermodels" Condition="Exists('$(MSBuildProjectDirectory)\firesplayermodels')" /> -->
+
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
